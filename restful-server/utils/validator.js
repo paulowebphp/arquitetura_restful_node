@@ -4,8 +4,8 @@ module.exports =
     user: (app, req, res) =>
     {
         /** VALIDANDO CAMPOS COM assert */
-        req.assert('name', 'O nome é obrigatorio').notEmpty();
-        req.assert('email', 'Email inválido').notEmpty().isEmail();
+        req.assert('_name', 'O nome é obrigatorio').notEmpty();
+        req.assert('_email', 'Email inválido').notEmpty().isEmail();
 
         let errors = req.validationErrors();
 
