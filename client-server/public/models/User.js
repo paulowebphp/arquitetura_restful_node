@@ -107,7 +107,7 @@ class User
                     break;
             
                 default:
-                this[name] = json[name];
+                if( name.substring(0,1) === '_' ) this[name] = json[name];
                     break;
 
             }//end switch
@@ -156,41 +156,56 @@ class User
 
 
 
+    toJSON()
+    {
+        let json = {};
+
+        Object.keys(this).forEach( key =>
+        {
+            if( this[key] !== undefined) json[key] = this[key];
+
+        });//end Object.keys().forEach()
+
+        return json;
+
+    }//END toJSON
+
+
+
 
     save()
     {
 
-        let users = User.getUsersStorage();
-
-        if( this.id > 0 )
+        return new Promise( (resolve, reject) =>
         {
+            let promise;
 
-            users.map( u =>
+            if( this.id )
+            {
+                promise = HttpRequest.put(`/users/${this.id}`, this.toJSON());
+
+            }//end if
+            else
+            {
+                promise = HttpRequest.post('/users', this.toJSON());
+
+            }//end else
+
+            promise.then( data =>
             {
 
-                if( u._id == this.id )
-                {
+                this.loadFromJSON(data);
 
-                    Object.assign(u, this);
+                resolve(this);
 
-                }//end if
+            }).catch( e =>
+            {
 
-                return u;
+                reject(e);
 
-            });//end map
+            });//end promise.then().catch()
 
-        }//end if
-        else
-        {
-
-            this._id = this.getNewID();
-
-            users.push(this);
-
-        }//end else
-
-        /** Iniciando/Guardando no Local Storatge */
-        localStorage.setItem("users", JSON.stringify(users));
+        });//end Promise
 
     }//END save
 

@@ -53,8 +53,10 @@ class HttpRequest
             
             // ';' adicionado no curso javascript_Aula_80_U05 (02:05)
             };//end ajax.onload
-    
-            ajax.send();
+            
+            ajax.setRequestHeader('Content-Type', 'application/json');
+
+            ajax.send(JSON.stringify(params));
 
         });//end Promise
 
