@@ -271,7 +271,7 @@ class UserController
     selectAll()
     {
 
-        HttpRequest.get('/users').then( data =>
+        User.getUsersStorage().then( data =>
         {
 
             data.users.forEach( dataUser =>
@@ -284,7 +284,7 @@ class UserController
     
             });//end forech
 
-        });//END HttpRequest.get().then()
+        });//end User.getUsersStorage().then()
 
     }//end selectAll
 
@@ -365,11 +365,15 @@ class UserController
 
                 user.loadFromJSON(JSON.parse(tr.dataset.user));
 
-                user.remove();
+                user.remove().then( data =>
+                {
 
-                tr.remove();
+                    /** Este método remove é nativo */
+                    tr.remove();
 
-                this.updateCount();
+                    this.updateCount();
+
+                });//end user.remove().then()
 
             }//end if
 

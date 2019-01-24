@@ -7,7 +7,7 @@ class HttpRequest
 
     static post( url, params = {} ) { return HttpRequest.request('POST', url, params); }//END get
 
-    static get( url, params = {} ) { return HttpRequest.request('GET', url, params) ;}//END get
+    static delete( url, params = {} ) { return HttpRequest.request('DELETE', url, params) ;}//END get
 
 
 
